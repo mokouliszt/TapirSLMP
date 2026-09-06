@@ -251,7 +251,6 @@ CIでは単体テスト、SQLite/PostgreSQLテスト、container buildに加え�
 - [Architecture](docs/architecture.ja.md)
 - [HTTP API](docs/http-api.ja.md)
 - [Securityと障害時動作](docs/security.ja.md)
-- [Contribution](CONTRIBUTING.md)
 - [脆弱性報告](SECURITY.md)
 
 SLMP層は、生伝文を扱う独立実装です。上記2プロジェクトのruntime sourceは
