@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Description>HTTP contracts, job gateway abstractions, and the transport-independent job admission policy for TapirSLMP.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../TapirSLMP.Protocol/TapirSLMP.Protocol.csproj" />
+  </ItemGroup>
+</Project>

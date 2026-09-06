@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Description>HTTP client and job gateway for a TapirSLMP freezer.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Http" />
+    <ProjectReference Include="../TapirSLMP.Contracts/TapirSLMP.Contracts.csproj" />
+  </ItemGroup>
+</Project>

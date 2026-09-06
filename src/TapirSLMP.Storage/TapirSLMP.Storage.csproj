@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Description>Job store abstraction (IJobStore) and in-process job gateway for TapirSLMP. Extension point for custom job store implementations.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../TapirSLMP.Contracts/TapirSLMP.Contracts.csproj" />
+  </ItemGroup>
+</Project>

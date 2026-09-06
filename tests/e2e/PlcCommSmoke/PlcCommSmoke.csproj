@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <PlcCommSource Condition="'$(PlcCommSource)' == ''">$(MSBuildThisFileDirectory)../../../.external/plc-comm/src/PlcComm.Slmp/PlcComm.Slmp.csproj</PlcCommSource>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="$(PlcCommSource)" />
+  </ItemGroup>
+</Project>

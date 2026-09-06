@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <IsPackable>false</IsPackable>
+    <RootNamespace>TapirSLMP.E2E.FreezerHost</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../../../src/TapirSLMP.Freezer.Hosting/TapirSLMP.Freezer.Hosting.csproj" />
+  </ItemGroup>
+</Project>

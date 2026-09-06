@@ -1,0 +1,121 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_DB: tapirslmp
+          POSTGRES_USER: tapirslmp
+          POSTGRES_PASSWORD: integration-test-only
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U tapirslmp -d tapirslmp"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      TAPIRSLMP_TEST_POSTGRES: Host=127.0.0.1;Port=5432;Database=tapirslmp;Username=tapirslmp;Password=integration-test-only
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+      - run: dotnet restore TapirSLMP.slnx
+      - run: dotnet build TapirSLMP.slnx --configuration Release --no-restore
+      - run: dotnet test TapirSLMP.slnx --configuration Release --no-build --collect:"XPlat Code Coverage"
+
+  container:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build --tag tapirslmp-freezer:test .
+
+  compatibility:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: mokouliszt/VirtualMelsecR
+          ref: 0b0e021b95453586954c3b29f3a332366a256916
+          path: .external/VirtualMelsecR
+      - uses: actions/checkout@v4
+        with:
+          repository: fa-yoshinobu/plc-comm-slmp-dotnet
+          ref: 6df11e22990f418e946a8e80cd66b46142203239
+          path: .external/plc-comm
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Build projects and VirtualMelsecR
+        run: |
+          dotnet restore TapirSLMP.slnx
+          dotnet build TapirSLMP.slnx --configuration Release --no-restore
+          dotnet build tests/e2e/PlcCommSmoke/PlcCommSmoke.csproj --configuration Release
+          python -m pip install Cython
+          (cd .external/VirtualMelsecR && python setup.py build_ext --inplace)
+      - name: Start bridge and simulator
+        env:
+          ASPNETCORE_URLS: http://127.0.0.1:5080
+          Freezer__Provider: Sqlite
+          Freezer__SqliteConnectionString: Data Source=/tmp/tapirslmp-e2e.db;Pooling=False
+          Freezer__SealerToken: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+          Freezer__LiberatorToken: bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+          Freezer__AllowStateChangingCommands: "true"
+          Sealer__ListenAddress: 127.0.0.1
+          Sealer__Port: "5000"
+          Sealer__ListenMode: Tcp
+          Sealer__RouteKey: plc1
+          Sealer__PollIntervalMilliseconds: "20"
+          Liberator__PollIntervalMilliseconds: "20"
+          Liberator__Routes__plc1__Host: 127.0.0.1
+          Liberator__Routes__plc1__Port: "5007"
+          Freezer__BaseAddress: http://127.0.0.1:5080
+          Freezer__RequestTimeoutSeconds: "15"
+          Freezer__AllowInsecureHttpForLoopback: "true"
+          Freezer__Token: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+        run: |
+          (cd .external/VirtualMelsecR && python -m virtualmelsecr --host 127.0.0.1 --port 5007) > /tmp/virtualmelsecr.log 2>&1 &
+          echo $! > /tmp/virtualmelsecr.pid
+          dotnet run --no-build --configuration Release --project tests/e2e/hosts/FreezerHost > /tmp/freezer.log 2>&1 &
+          echo $! > /tmp/freezer.pid
+          dotnet run --no-build --configuration Release --project tests/e2e/hosts/SealerHost > /tmp/sealer.log 2>&1 &
+          echo $! > /tmp/sealer.pid
+          Freezer__Token=bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb dotnet run --no-build --configuration Release --project tests/e2e/hosts/LiberatorHost > /tmp/liberator.log 2>&1 &
+          echo $! > /tmp/liberator.pid
+          for attempt in $(seq 1 60); do
+            if curl --fail --silent http://127.0.0.1:5080/healthz >/dev/null &&
+               python -c "import socket; s=socket.create_connection(('127.0.0.1',5000),1); s.close()"; then
+              exit 0
+            fi
+            sleep 1
+          done
+          tail -n 100 /tmp/freezer.log /tmp/sealer.log /tmp/liberator.log /tmp/virtualmelsecr.log
+          exit 1
+      - name: Raw 3E/4E round-trip
+        run: python tests/e2e/slmp_roundtrip.py
+      - name: PlcComm.Slmp compatibility
+        run: dotnet run --no-build --configuration Release --project tests/e2e/PlcCommSmoke -- 127.0.0.1 5000
+      - name: Show logs on failure
+        if: failure()
+        run: tail -n 200 /tmp/freezer.log /tmp/sealer.log /tmp/liberator.log /tmp/virtualmelsecr.log
+      - name: Stop background processes
+        if: always()
+        run: |
+          for pid_file in /tmp/freezer.pid /tmp/sealer.pid /tmp/liberator.pid /tmp/virtualmelsecr.pid; do
+            if test -f "$pid_file"; then kill "$(tr -d '\n' < "$pid_file")" 2>/dev/null || true; fi
+          done

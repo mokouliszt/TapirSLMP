@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Description>Binary SLMP 3E/4E frame parsing, correlation, and command risk classification.</Description>
+  </PropertyGroup>
+</Project>

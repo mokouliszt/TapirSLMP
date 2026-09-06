@@ -1,0 +1,9 @@
+**/bin
+**/obj
+.git
+.external
+data
+reference-*
+*.db
+*.db-shm
+*.db-wal

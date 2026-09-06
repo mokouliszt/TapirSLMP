@@ -1,0 +1,17 @@
+services:
+  freezer:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:5080:8080"
+    environment:
+      Freezer__Provider: Sqlite
+      Freezer__SqliteConnectionString: Data Source=/app/data/tapirslmp.db;Cache=Shared;Pooling=True
+      Freezer__SealerToken: ${SEALER_TOKEN:?set SEALER_TOKEN}
+      Freezer__LiberatorToken: ${LIBERATOR_TOKEN:?set LIBERATOR_TOKEN}
+      Freezer__AllowStateChangingCommands: ${ALLOW_STATE_CHANGING_COMMANDS:-false}
+    volumes:
+      - tapirslmp-data:/app/data
+
+volumes:
+  tapirslmp-data:

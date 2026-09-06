@@ -1,0 +1,26 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/TapirSLMP/TapirSLMP.csproj" />
+    <Project Path="src/TapirSLMP.Protocol/TapirSLMP.Protocol.csproj" />
+    <Project Path="src/TapirSLMP.Contracts/TapirSLMP.Contracts.csproj" />
+    <Project Path="src/TapirSLMP.Storage/TapirSLMP.Storage.csproj" />
+    <Project Path="src/TapirSLMP.Storage.Sqlite/TapirSLMP.Storage.Sqlite.csproj" />
+    <Project Path="src/TapirSLMP.Storage.Postgres/TapirSLMP.Storage.Postgres.csproj" />
+    <Project Path="src/TapirSLMP.Client/TapirSLMP.Client.csproj" />
+    <Project Path="src/TapirSLMP.Freezer.Hosting/TapirSLMP.Freezer.Hosting.csproj" />
+    <Project Path="src/TapirSLMP.Sealer/TapirSLMP.Sealer.csproj" />
+    <Project Path="src/TapirSLMP.Liberator/TapirSLMP.Liberator.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/e2e/hosts/FreezerHost/FreezerHost.csproj" />
+    <Project Path="tests/e2e/hosts/SealerHost/SealerHost.csproj" />
+    <Project Path="tests/e2e/hosts/LiberatorHost/LiberatorHost.csproj" />
+    <Project Path="tests/e2e/hosts/AllInOneHost/AllInOneHost.csproj" />
+    <Project Path="tests/TapirSLMP.Protocol.Tests/TapirSLMP.Protocol.Tests.csproj" />
+    <Project Path="tests/TapirSLMP.Contracts.Tests/TapirSLMP.Contracts.Tests.csproj" />
+    <Project Path="tests/TapirSLMP.Sealer.Tests/TapirSLMP.Sealer.Tests.csproj" />
+    <Project Path="tests/TapirSLMP.Storage.Tests/TapirSLMP.Storage.Tests.csproj" />
+    <Project Path="tests/TapirSLMP.Client.Tests/TapirSLMP.Client.Tests.csproj" />
+    <Project Path="tests/TapirSLMP.Freezer.Hosting.Tests/TapirSLMP.Freezer.Hosting.Tests.csproj" />
+  </Folder>
+</Solution>

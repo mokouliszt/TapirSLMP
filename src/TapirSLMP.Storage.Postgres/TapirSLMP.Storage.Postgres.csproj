@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <PackageReference Include="Npgsql" />
+    <ProjectReference Include="../TapirSLMP.Contracts/TapirSLMP.Contracts.csproj" />
+    <ProjectReference Include="../TapirSLMP.Storage/TapirSLMP.Storage.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Description>All-in-one TapirSLMP package: SLMP frame codec, contracts, freezer client, sealer, and liberator. Reference this from every application in a TapirSLMP deployment. Freezer hosting and storage providers are separate packages so that applications which do not host the freezer stay free of the ASP.NET Core shared framework and database drivers.</Description>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <NoWarn>$(NoWarn);NU5128</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../TapirSLMP.Protocol/TapirSLMP.Protocol.csproj" />
+    <ProjectReference Include="../TapirSLMP.Contracts/TapirSLMP.Contracts.csproj" />
+    <ProjectReference Include="../TapirSLMP.Client/TapirSLMP.Client.csproj" />
+    <ProjectReference Include="../TapirSLMP.Sealer/TapirSLMP.Sealer.csproj" />
+    <ProjectReference Include="../TapirSLMP.Liberator/TapirSLMP.Liberator.csproj" />
+  </ItemGroup>
+</Project>

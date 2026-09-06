@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Description>ASP.NET Core hosting for a TapirSLMP freezer: AddTapirFreezer and MapTapirFreezer bring the job queue endpoints into an existing web application. Requires the ASP.NET Core shared framework.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <ProjectReference Include="../TapirSLMP.Contracts/TapirSLMP.Contracts.csproj" />
+    <ProjectReference Include="../TapirSLMP.Protocol/TapirSLMP.Protocol.csproj" />
+    <ProjectReference Include="../TapirSLMP.Storage/TapirSLMP.Storage.csproj" />
+    <ProjectReference Include="../TapirSLMP.Storage.Sqlite/TapirSLMP.Storage.Sqlite.csproj" />
+    <ProjectReference Include="../TapirSLMP.Storage.Postgres/TapirSLMP.Storage.Postgres.csproj" />
+  </ItemGroup>
+</Project>

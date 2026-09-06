@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <IsPackable>false</IsPackable>
+    <RootNamespace>TapirSLMP.E2E.AllInOneHost</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting" />
+    <ProjectReference Include="../../../../src/TapirSLMP.Sealer/TapirSLMP.Sealer.csproj" />
+    <ProjectReference Include="../../../../src/TapirSLMP.Liberator/TapirSLMP.Liberator.csproj" />
+    <ProjectReference Include="../../../../src/TapirSLMP.Storage.Sqlite/TapirSLMP.Storage.Sqlite.csproj" />
+  </ItemGroup>
+</Project>
