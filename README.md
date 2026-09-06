@@ -190,7 +190,7 @@ Freezer__BaseAddress=http://127.0.0.1:5080 \
 Freezer__Token=bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb \
 Freezer__AllowInsecureHttpForLoopback=true \
 Liberator__Routes__plc1__Host=127.0.0.1 \
-Liberator__Routes__plc1__Port=5007 \
+Liberator__Routes__plc1__Port=5511 \
 dotnet run --project tests/e2e/hosts/LiberatorHost
 ```
 
