@@ -2,6 +2,8 @@
   <PropertyGroup>
     <Description>All-in-one TapirSLMP package: SLMP frame codec, contracts, freezer client, sealer, and liberator. Reference this from every application in a TapirSLMP deployment. Freezer hosting and storage providers are separate packages so that applications which do not host the freezer stay free of the ASP.NET Core shared framework and database drivers.</Description>
     <IncludeBuildOutput>false</IncludeBuildOutput>
+    <!-- This dependency-only package has no assembly or PDB to publish. -->
+    <IncludeSymbols>false</IncludeSymbols>
     <NoWarn>$(NoWarn);NU5128</NoWarn>
   </PropertyGroup>
   <ItemGroup>
